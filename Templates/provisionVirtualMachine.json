@@ -53,7 +53,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[parameters('OSDiskName')]",
             "vhd": {
               "uri": "[concat('http://', parameters('vhdStorageName'), '.blob.core.windows.net/', parameters('vhdStorageContainerName'), '/', parameters('OSDiskName'), '.vhd')]"
             },
