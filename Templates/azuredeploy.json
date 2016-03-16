@@ -7,7 +7,7 @@
       "defaultValue": "vFiveManager",
       "minLength": 1,
       "metadata": {
-        "description": "The virtual machine name"
+        "description": "The vFive manager virtual machine name"
       }
     },
     "imageSku": {
@@ -15,7 +15,7 @@
       "defaultValue": "2012-R2-Datacenter",
       "allowedValues": [ "2012-R2-Datacenter" ],
       "metadata": {
-        "description": "The virtual machine image sku"
+        "description": "The vFive manager virtual machine image sku."
       }
     },
     "vmSize": {
@@ -23,7 +23,7 @@
       "defaultValue": "Standard_A2",
       "minLength": 1,
       "metadata": {
-        "description": "The virtual machine size"
+        "description": "The vFive manager virtual machine size."
       }
     },
     "adminUsername": {
@@ -90,7 +90,7 @@
     "vFiveSqlServerName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "vFiveSqlServer",
+      "defaultValue": "vfivesqlserver",
       "metadata": {
         "description": "vFive Sql server name."
       }
@@ -109,7 +109,7 @@
     },
     "databaseEdition": {
       "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "Standard",
       "allowedValues": [
         "Basic",
         "Standard",
@@ -141,7 +141,7 @@
     },
     "databaseRequestedServiceObjectiveName": {
       "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "S0",
       "allowedValues": [
         "Basic",
         "S0",
