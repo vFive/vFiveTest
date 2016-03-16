@@ -1,0 +1,51 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": { "type": "string" },
+    "adminLogin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adminLoginPassword": {
+      "type": "securestring"
+    },
+    "isSqlServerWindowsAuthentication": {
+      "type": "bool"
+    },
+    "databaseName": {
+      "type": "string"
+    },
+    "edition": {
+      "type": "string"
+    },
+    "collation": {
+      "type": "string"
+    },
+    "maxSizeBytes": {
+      "type": "string"
+    },
+    "requestedServiceObjectiveName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    
+  ],
+  "outputs": {
+    "sqlInstanceName": {
+      "value": "[parameters('name')]",
+      "type": "string"
+    },
+    "sqlInstanceUsername": {
+      "value": "[parameters('adminLogin')]",
+      "type": "string"
+    },
+    "isSqlWindowsAuthentication": {
+      "value": "[parameters('isSqlServerWindowsAuthentication')]",
+      "type": "bool"
+    }
+  }
+}

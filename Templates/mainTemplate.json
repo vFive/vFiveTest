@@ -1,0 +1,518 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string",
+      "defaultValue": "vFiveManager",
+      "minLength": 1,
+      "metadata": {
+        "description": "The virtual machine name"
+      }
+    },
+    "imageSku": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [ "2012-R2-Datacenter" ],
+      "metadata": {
+        "description": "The virtual machine image sku"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_A2",
+      "minLength": 1,
+      "metadata": {
+        "description": "The virtual machine size"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Virtual Machine."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of storage account"
+      },
+      "defaultValue": "vfive"
+    },
+    "storageAccountNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing"
+      ],
+      "metadata": {
+        "Description": "Indicates whether the Storage Account is new or existing"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "metadata": {
+        "description": "The type of the Storage Account created"
+      },
+      "defaultValue": "Standard-RAGRS"
+    },
+    "packageUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "vFive package url."
+      }
+    },
+    "packageSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "vFive package sas token for azure storage account."
+      }
+    },
+    "sqlServerNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing"
+      ],
+      "metadata": {
+        "Description": "Indicates whether the SQL server is new or existing"
+      }
+    },
+    "vFiveSqlServerName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "vFive_SqlServer",
+      "metadata": {
+        "description": "vFive Sql server name."
+      }
+    },
+    "vFiveDatabaseName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "vFive_ControlDatabase",
+      "metadata": {
+        "description": "vFive manager control database name"
+      }
+    },
+    "databaseCollation": {
+      "type": "string",
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "databaseEdition": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "Standard",
+        "Premium"
+      ]
+    },
+    "databaseMaxSizeBytes": {
+      "type": "string",
+      "defaultValue": "1073741824",
+      "allowedValues": [
+        "104857600",
+        "524288000",
+        "1073741824",
+        "2147483648",
+        "5368709120",
+        "10737418240",
+        "21474836480",
+        "32212254720",
+        "42949672960",
+        "53687091200",
+        "107374182400",
+        "161061273600",
+        "214748364800",
+        "268435456000",
+        "322122547200",
+        "429496729600",
+        "536870912000"
+      ]
+    },
+    "databaseRequestedServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "S0",
+        "S1",
+        "S2",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "metadata": {
+        "description": "Describes the performance level for Edition"
+      }
+    },
+    "isSqlServerWindowsAuthentication": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "vFive manager SQL server is windows authentication."
+      }
+    },
+    "vFiveSQLAccountUserName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "vFive setup account name"
+      }
+    },
+    "vFiveSQLAccountPassword": {
+      "type": "securestring",
+      "minLength": 1,
+      "metadata": {
+        "description": "vFive setup account password"
+      }
+    },
+    "vFiveApplicationPoolUserName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "vFive application pool account name"
+      }
+    },
+    "vFiveApplicationPoolPassword": {
+      "type": "securestring",
+      "minLength": 1,
+      "metadata": {
+        "description": "vFive application pool account password"
+      }
+    },
+    "nicName": {
+      "type": "string",
+      "defaultValue": "vFiveNic",
+      "minLength": 1,
+      "metadata": {
+        "description": "The virtual machine network interface name"
+      }
+    },
+    "publicIPNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing"
+      ],
+      "metadata": {
+        "description": "Indicates whether the VM IP is new or existing"
+      }
+    },
+    "publicIPAddressName": {
+      "type": "string",
+      "defaultValue": "vFivePublicIP",
+      "minLength": 1,
+      "metadata": {
+        "description": "The virtual machine public IP address"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "vFiveVNET",
+      "minLength": 1,
+      "metadata": {
+        "description": "The virtual network name"
+      }
+    },
+    "baseUrl": {
+      "type": "string",
+      "metadata": {
+        "artifactsBaseUrl": "",
+        "description": "URL to acquire other templates"
+      },
+      "defaultValue": "https://raw.githubusercontent.com/vFive/vFiveTest/master"
+    }
+  },
+  "variables": {
+    "imagePublisher": "MicrosoftWindowsServer",
+    "imageOffer": "WindowsServer",
+    "dnsPrefix": "",
+    "OSDiskName": "osdisk",
+    "addressPrefix": "10.0.0.0/16",
+    "subnetName": "Subnet",
+    "subnetPrefix": "10.0.0.0/24",
+    "publicIPAddressType": "Dynamic",
+    "vhdStorageContainerName": "vhds",
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+    "dscExtensionName": "InstallManager",
+    "dscConfgureModulesURL": "[concat(parameters('baseUrl'), '/dsc.zip')]",
+    "installManagerFunction": "InstallManager.ps1\\InstallManager",
+    "templateFolder": "Templates",
+    "storageAccountTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/storageAccount-', parameters('storageAccountNewOrExisting'),'.json')]",
+    "publicIPAddressTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/publicIP-', parameters('publicIPNewOrExisting'),'.json')]",
+    "virtualNetworkTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/setupVirtualNetwork.json')]",
+    "networkInterfaceTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/setupNetworkInterface.json')]",
+    "provisionManagerVMTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/provisionVirtualMachine.json')]",
+    "provisionSQLServerTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/sqlServer-', parameters('sqlServerNewOrExisting') ,'.json')]",
+    "installManagerTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/installvFiveManager.json')]"
+  },
+  "resources": [
+    {
+      "name": "SetupStorageAccount",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('storageAccountTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "storageAccountType": {
+            "value": "[parameters('storageAccountType')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "SetupPublicIPAddress",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('publicIPAddressTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dnsPrefix": {
+            "value": "[variables('dnsPrefix')]"
+          },
+          "publicIPAddressName": {
+            "value": "[parameters('publicIPAddressName')]"
+          },
+          "publicIPAddressType": {
+            "value": "[variables('publicIPAddressType')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "SetupVirtualNetwork",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('virtualNetworkTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "addressPrefix": {
+            "value": "[variables('addressPrefix')]"
+          },
+          "subnetName": {
+            "value": "[variables('subnetName')]"
+          },
+          "subnetPrefix": {
+            "value": "[variables('subnetPrefix')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "SetupNetworkInterface",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupPublicIPAddress",
+        "Microsoft.Resources/deployments/SetupVirtualNetwork"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('virtualNetworkTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nicName": {
+            "value": "[parameters('nicName')]"
+          },
+          "publicIPAddressName": {
+            "value": "[parameters('publicIPAddressName')]"
+          },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "subnetRef": {
+            "value": "[variables('subnetRef')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "ProvisionManagerVM",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupStorageAccount",
+        "Microsoft.Resources/deployments/SetupNetworkInterface"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('provisionManagerVMTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('vmName')]"
+          },
+          "vhdStorageName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "nicName": {
+            "value": "[parameters('nicName')]"
+          },
+          "vmSize": {
+            "value": "[parameters('vmSize')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "imagePublisher": {
+            "value": "[variables('imagePublisher')]"
+          },
+          "imageOffer": {
+            "value": "[variables('imageOffer')]"
+          },
+          "imageSku": {
+            "value": "[parameters('imageSku')]"
+          },
+          "vhdStorageContainerName": {
+            "value": "[variables('vhdStorageContainerName')]"
+          },
+          "OSDiskName": {
+            "value": "[variables('OSDiskName')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "ProvisionSQLServer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('provisionSQLServerTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "name": {
+            "value": "[parameters('vFiveSqlServerName')]"
+          },
+          "adminLogin": {
+            "value": "[parameters('vFiveSQLAccountUserName')]"
+          },
+          "adminLoginPassword": {
+            "value": "[parameters('vFiveSQLAccountPassword')]"
+          },
+          "edition": {
+            "value": "[parameters('databaseEdition')]"
+          },
+          "collation": {
+            "value": "[parameters('databaseCollation')]"
+          },
+          "maxSizeBytes": {
+            "value": "[parameters('databaseMaxSizeBytes')]"
+          },
+          "requestedServiceObjectiveName": {
+            "value": "[parameters('databaseRequestedServiceObjectiveName')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "InstallManager",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/ProvisionManagerVM",
+        "Microsoft.Resources/deployments/ProvisionSQLServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('installManagerTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('vmName')]"
+          },
+          "extensionName": {
+            "value": "[variables('dscExtensionName')]"
+          },
+          "installvFiveModulesURL": {
+            "value": "[variables('dscConfgureModulesURL')]"
+          },
+          "installvFiveManagerFunction": {
+            "value": "[variables('installManagerFunction')]"
+          },
+          "packageSasToken": {
+            "value": "[parameters('packageSasToken')]"
+          },
+          "packageUrl": {
+            "value": "[parameters('packageUrl')]"
+          },
+          "vFiveSQLAccountUserName": {
+            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceName.value]"
+          },
+          "vFiveSQLAccountPassword": {
+            "value": "[parameters('vFiveSQLAccountPassword')]"
+          },
+          "sqlServerInstanceName": {
+            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceUsername.value]"
+          },
+          "sqlServerIsIntegrated": {
+            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.isSqlWindowsAuthentication.value]"
+          },
+          "databaseName": {
+            "value": "[parameters('vFiveDatabaseName')]"
+          },
+          "vFiveApplicationPoolUserName": {
+            "value": "[parameters('vFiveApplicationPoolUserName')]"
+          },
+          "vFiveApplicationPoolPassword": {
+            "value": "[parameters('vFiveApplicationPoolPassword')]"
+          },
+          "adminAccountUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminAccountPassword": {
+            "value": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

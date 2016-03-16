@@ -1,0 +1,106 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": { "type": "string" },
+    "adminLogin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adminLoginPassword": {
+      "type": "securestring"
+    },
+    "isSqlServerWindowsAuthentication": {
+      "type": "bool"
+    },
+    "databaseName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "edition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "maxSizeBytes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requestedServiceObjectiveName": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "variables": {
+    "lowerName": "[toLower(parameters('name'))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('lowerName')]",
+      "type": "Microsoft.Sql/servers",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-04-01-preview",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "ProvisionSQLServer"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "administratorLogin": "[parameters('adminLogin')]",
+        "administratorLoginPassword": "[parameters('adminLoginPassword')]"
+      },
+      "resources": [
+        {
+          "name": "[parameters('databaseName')]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "Database"
+          },
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('lowerName'))]"
+          ],
+          "properties": {
+            "edition": "[parameters('edition')]",
+            "collation": "[parameters('collation')]",
+            "maxSizeBytes": "[parameters('maxSizeBytes')]",
+            "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
+          }
+        },
+        {
+          "name": "AllowAllWindowsAzureIps",
+          "type": "firewallrules",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('lowerName'))]"
+          ],
+          "properties": {
+            "mode": "Incremental",
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "0.0.0.0"
+          }
+        }
+      ]
+    }
+
+  ],
+  "outputs": {
+    "sqlInstanceName": {
+      "value": "[concat('tcp:', variables('lowerName'), '.database.windows.net,1433')]",
+      "type": "string"
+    },
+    "sqlInstanceUsername": {
+      "value": "[concat(parameters('adminLogin'),'@', variables('lowerName'))]",
+      "type": "string"
+    },
+    "isSqlWindowsAuthentication": {
+      "value": false,
+      "type": "bool"
+    }
+  }
+}
