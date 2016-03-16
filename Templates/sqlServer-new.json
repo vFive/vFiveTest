@@ -2,7 +2,7 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "name": { "type": "string" },
+    "sqlServerName": { "type": "string" },
     "adminLogin": {
       "type": "string",
       "minLength": 1
@@ -35,7 +35,7 @@
     }
   },
   "variables": {
-    "lowerName": "[toLower(parameters('name'))]"
+    "lowerName": "[toLower(parameters('sqlServerName'))]"
   },
   "resources": [
     {
@@ -48,7 +48,6 @@
         "displayName": "ProvisionSQLServer"
       },
       "properties": {
-        "mode": "Incremental",
         "administratorLogin": "[parameters('adminLogin')]",
         "administratorLoginPassword": "[parameters('adminLoginPassword')]"
       },
@@ -80,7 +79,6 @@
             "[concat('Microsoft.Sql/servers/', variables('lowerName'))]"
           ],
           "properties": {
-            "mode": "Incremental",
             "startIpAddress": "0.0.0.0",
             "endIpAddress": "0.0.0.0"
           }
