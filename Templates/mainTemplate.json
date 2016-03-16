@@ -342,7 +342,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('virtualNetworkTemplateUrl')]",
+          "uri": "[variables('networkInterfaceTemplateUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -433,6 +433,12 @@
           },
           "adminLoginPassword": {
             "value": "[parameters('vFiveSQLAccountPassword')]"
+          },
+          "isSqlServerWindowsAuthentication": {
+            "value": "[parameters('isSqlServerWindowsAuthentication')]"
+          },
+          "databaseName": {
+            "value": "[parameters('vFiveDatabaseName')]"
           },
           "edition": {
             "value": "[parameters('databaseEdition')]"
