@@ -62,7 +62,7 @@
       "metadata": {
         "description": "The type of the Storage Account created"
       },
-      "defaultValue": "Standard-RAGRS"
+      "defaultValue": "StandardRAGRS"
     },
     "packageUrl": {
       "type": "string",
