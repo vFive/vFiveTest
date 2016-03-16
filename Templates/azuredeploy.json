@@ -238,7 +238,7 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "dnsPrefix": "",
-    "OSDiskName": "osdisk",
+    "OSDiskName": "[concat(toLower(parameters('vmName')), '-osdisk-', uniqueString(resourceGroup().id, deployment().name))]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
