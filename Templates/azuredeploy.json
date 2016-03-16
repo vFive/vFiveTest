@@ -90,7 +90,7 @@
     "vFiveSqlServerName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "vFive_SqlServer",
+      "defaultValue": "vFiveSqlServer",
       "metadata": {
         "description": "vFive Sql server name."
       }
