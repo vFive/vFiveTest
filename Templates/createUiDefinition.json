@@ -4,11 +4,34 @@
   "parameters": {
     "basics": [
       {
+        "name": "vmName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "VM name",
+        "toolTip": "VM name for vFive manager.",
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        }
+      },
+      {
+        "name": "computerName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Computer name",
+        "toolTip": "The VM's computer name.",
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        }
+      },
+      {
         "name": "adminUsername",
         "type": "Microsoft.Compute.UserNameTextBox",
         "label": "Username",
         "toolTip": "Admin username for the virtual machines.",
-        "osPlatform": "Windows"
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        }
       },
       {
         "name": "adminPassword",
@@ -20,32 +43,30 @@
         "toolTip": {
           "password": "Admin password for the virtual machines."
         },
-        "osPlatform": "Windows"
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        },
+        "options": {
+          "hideConfirmation": true
+        }
       }
     ],
     "steps": [
       {
-        "name": "infrastructureConfig",
-        "label": "Infrastructure settings",
+        "name": "vmSize",
+        "label": "Size",
         "subLabel": {
-          "preValidation": "Configure the infrastructure settings",
+          "preValidation": "Choose virtual machine size",
           "postValidation": "Done"
         },
-        "bladeTitle": "Infrastructure settings",
+        "bladeTitle": "Size",
         "elements": [
-          {
-            "name": "storageAccount",
-            "type": "Microsoft.Storage.StorageAccountSelector",
-            "label": "Storage account",
-            "defaultValue": {
-              "type": "Standard_LRS"
-            }
-          },
           {
             "name": "vmSize",
             "type": "Microsoft.Compute.SizeSelector",
-            "label": "Virtual machine size",
-            "toolTip": "The size of the virtual machine for the domain controller.",
+            "label": "Virtual machine size.",
+            "toolTip": "The size of the virtual machine.",
             "recommendedSizes": [
               "Standard_D1",
               "Standard_D2",
@@ -61,47 +82,112 @@
               "sku": "2012-R2-Datacenter"
             },
             "count": 1
-          },
-          {
-            "name": "vnetSpec",
-            "type": "Microsoft.Network.VirtualNetworkCombo",
-            "label": {
-              "virtualNetwork": "Virtual network",
-              "subnets": "Subnets"
-            },
-            "toolTip": {
-              "virtualNetwork": "",
-              "subnets": ""
-            },
-            "defaultValue": {
-              "name": "vFivevNet",
-              "addressPrefixSize": "/16"
-            },
-            "constraints": {
-              "minAddressPrefixSize": "/29"
-            }
-          },
-          {
-            "name": "dnsAndPublicIP",
-            "type": "Microsoft.Network.PublicIpAddressCombo",
-            "label": {
-              "publicIpAddress": "Public IP address",
-              "domainNameLabel": "DNS Prefix"
-            },
-            "toolTip": {
-              "domainNameLabel": "DNS Prefix for the VM public IP addresses."
-            },
-            "defaultValue": {
-              "publicIpAddressName": "publicIP"
-            },
-            "options": {
-              "hideNone": true
-            }
           }
         ]
       },
       {
-        "name": "vFiveConfig",
+        "name": "vmSettings",
+        "label": "VM Settings",
+        "subLabel": {
+          "preValidation": "Configure VM settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "VM Settings",
+        "elements": [
+          {
+            "name": "storage",
+            "type": "Microsoft.Common.Section",
+            "label": "Storage",
+            "elements": [
+              {
+                "name": "diskType",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Disk type",
+                "defaultValue": "Standard",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Standard",
+                      "value": "Standard"
+                    },
+                    {
+                      "label": "Preminum (SSD)",
+                      "value": "Preminum"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "storageAccount",
+                "type": "Microsoft.Storage.StorageAccountSelector",
+                "label": "Storage account",
+                "toolTip": "Disk for Azure virtual machines are created in storage accounts.",
+                "defaultValue": {
+                  "type": "Standard_LRS"
+                },
+                "constraints": {
+                  "required": true
+                }
+              }
+            ]
+          },
+          {
+            "name": "network",
+            "type": "Microsoft.Common.Section",
+            "label": "Network",
+            "elements": [
+              {
+                "name": "virtualNetworkName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Virtual Network name",
+                "toolTip": "Name of the virtual network to be created",
+                "defaultValue": "vFiveVNet",
+                "constraints": {
+                  "required": true,
+                  "regex": "^[a-z0-9A-Z]{1,10}$",
+                  "validationMessage": "Only letters and numbers are allowed, and the value must be 1-10 characters long."
+                }
+              },
+              {
+                "name": "publicIP",
+                "type": "Microsoft.Network.PublicIpAddressCombo",
+                "label": {
+                  "publicIpAddress": "Public IP address"
+                },
+                "toolTip": {
+                  "publicIpAddress": "Public IP address for VM."
+                },
+                "defaultValue": {
+                  "publicIpAddressName": "vFivePublicIP"
+                },
+                "options": {
+                  "hideNone": true,
+                  "hideDomainNameLabel": false
+                },
+                "constraints": {
+                  "required": {
+                    "publicIpAddress": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "sqlServerSettings",
+        "label": "SQL server settings",
+        "subLabel": {
+          "preValidation": "Configure the SQL server settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "SQL server settings",
+        "elements": [
+
+        ]
+      },
+      {
+        "name": "vFiveSettings",
         "label": "vFive settings",
         "subLabel": {
           "preValidation": "Configure the vFive settings",
@@ -112,10 +198,10 @@
           {
             "name": "appPoolUsername",
             "type": "Microsoft.Compute.UserNameTextBox",
-            "label": "vFive application pool username.",
+            "label": "Application pool username.",
             "osPlatform": "Windows",
             "constraints": {
-              "required": true
+              "required": false
             }
           },
           {
@@ -126,14 +212,34 @@
               "confirmPassword": "Confirm password"
             },
             "toolTip": {
-              "password": "vFive application pool user password."
+              "password": "Application pool user password."
             },
             "osPlatform": "Windows",
             "constraints": {
-              "required": true
+              "required": false
             },
             "options": {
               "hideConfirmation": true
+            }
+          },
+          {
+            "name": "appPoolPort",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Application pool port",
+            "defaultValue": "15001",
+            "toolTip": "Application pool port.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "controlDBName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Control database name",
+            "defaultValue": "15001",
+            "toolTip": "Control database name.",
+            "constraints": {
+              "required": true
             }
           }
         ]
@@ -142,18 +248,8 @@
     "outputs": {
       "location": "[location()]",
       "adminUsername": "[steps('basics').adminUsername]",
-      "adminPassword": "[steps('basics').adminPassword]",
-      "storageAccountNewOrExisting": "[steps('infrastructureConfig').storageAccount.newOrExisting]",
-      "StorageAccountName": "[steps('infrastructureConfig').storageAccount.name]",
-      "storageAccountType": "[steps('infrastructureConfig').storageAccount.type]",
-      "existingStorageAccountRG": "[steps('infrastructureConfig').storageAccount.resourceGroup]",
-      "domainName": "[steps('infrastructureConfig').domainName]",
-      "vmSize": "[steps('infrastructureConfig').vmSize]",
-      "vmCount": "[steps('infrastructureConfig').vmCount]",
-      "publicIPAddressName": "[steps('infrastructureConfig').DnsAndPublicIP.name]",
-      "dnsNameForPublicIP": "[steps('infrastructureConfig').dnsAndPublicIP.domainNameLabel]",
-      "existingIPRGName": "[steps('infrastructureConfig').dnsAndPublicIP.resourceGroup]",
-      "publicIPNewOrExisting": "[steps('infrastructureConfig').dnsAndPublicIP.newOrExistingOrNone]"
+      "adminPassword": "[steps('basics').adminPassword]"
+      
     }
   }
 }
