@@ -13,6 +13,7 @@
     "sqlServerInstanceName": { "type": "string" },
     "sqlServerIsIntegrated": { "type": "bool" },
     "databaseName": { "type": "string" },
+    "vFiveApplicationPoolPort": { "type": "int" },
     "vFiveApplicationPoolUserName": { "type": "string" },
     "vFiveApplicationPoolPassword": { "type": "securestring" },
     "adminAccountUserName": {
@@ -57,6 +58,7 @@
               "Password": "PrivateSettingsRef:vFiveSQLAccountPassword"
             },
             "DatabaseName": "[parameters('databaseName')]",
+            "Port": "[parameters('vFiveApplicationPoolPort')]",
             "ApplicationPoolAccount": {
               "UserName": "[parameters('vFiveApplicationPoolUserName')]",
               "Password": "PrivateSettingsRef:vFiveApplicationPoolPassword"

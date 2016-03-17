@@ -176,6 +176,15 @@
         "description": "vFive setup account password"
       }
     },
+    "vFiveApplicationPoolPort": {
+      "type": "int",
+      "minValue": 1,
+      "maxValue": 65535,
+      "defaultValue": 15001,
+      "metadata": {
+        "description": "vFive application pool port."
+      }
+    },
     "vFiveApplicationPoolUserName": {
       "type": "string",
       "minLength": 1,
@@ -502,6 +511,9 @@
           },
           "databaseName": {
             "value": "[parameters('vFiveDatabaseName')]"
+          },
+          "vFiveApplicationPoolPort": {
+            "value": "[parameters('vFiveApplicationPoolPort')]"
           },
           "vFiveApplicationPoolUserName": {
             "value": "[parameters('vFiveApplicationPoolUserName')]"
