@@ -489,13 +489,13 @@
             "value": "[parameters('packageUrl')]"
           },
           "vFiveSQLAccountUserName": {
-            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceName.value]"
+            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceUsername.value]"
           },
           "vFiveSQLAccountPassword": {
             "value": "[parameters('vFiveSQLAccountPassword')]"
           },
           "sqlServerInstanceName": {
-            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceUsername.value]"
+            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceName.value]"
           },
           "sqlServerIsIntegrated": {
             "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.isSqlWindowsAuthentication.value]"
