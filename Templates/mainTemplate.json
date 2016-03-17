@@ -70,7 +70,7 @@
     "storageAccountType": {
       "type": "string",
       "metadata": {
-        "description": "The type of the Storage Account created"
+        "description": "The type of the Storage Account created."
       },
       "defaultValue": "Standard_RAGRS"
     },
@@ -94,7 +94,7 @@
         "existing"
       ],
       "metadata": {
-        "Description": "Indicates whether the SQL server is new or existing"
+        "Description": "Indicates whether the SQL server is new or existing."
       }
     },
     "vFiveSqlServerName": {
@@ -110,7 +110,7 @@
       "minLength": 1,
       "defaultValue": "tcp:vfivesqlserver.database.windows.net,1433",
       "metadata": {
-        "description": "vFive Sql server instance name for existing sql server."
+        "description": "The instance name for existing SQL server."
       }
     },
     "vFiveDatabaseName": {
@@ -118,12 +118,15 @@
       "minLength": 1,
       "defaultValue": "vFive_ControlDatabase",
       "metadata": {
-        "description": "vFive manager control database name"
+        "description": "Manager control database name."
       }
     },
     "databaseCollation": {
       "type": "string",
-      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS",
+      "metadata": {
+        "description": "Control database collation."
+      }
     },
     "databaseEdition": {
       "type": "string",
@@ -132,7 +135,10 @@
         "Basic",
         "Standard",
         "Premium"
-      ]
+      ],
+      "metadata": {
+        "description": "Control database edition."
+      }
     },
     "databaseMaxSizeBytes": {
       "type": "string",
@@ -155,7 +161,10 @@
         "322122547200",
         "429496729600",
         "536870912000"
-      ]
+      ],
+      "metadata": {
+        "description": "Control database max size in bytes."
+      }
     },
     "databaseRequestedServiceObjectiveName": {
       "type": "string",
@@ -170,7 +179,7 @@
         "P3"
       ],
       "metadata": {
-        "description": "Describes the performance level for Edition"
+        "description": "Describes the performance level for Edition."
       }
     },
     "isSqlServerWindowsAuthentication": {
@@ -185,14 +194,14 @@
       "defaultValue": "vfivesql",
       "minLength": 1,
       "metadata": {
-        "description": "vFive setup account name"
+        "description": "vFive SQL server account name."
       }
     },
     "vFiveSQLAccountPassword": {
       "type": "securestring",
       "minLength": 1,
       "metadata": {
-        "description": "vFive setup account password"
+        "description": "vFive SQL server account password."
       }
     },
     "vFiveApplicationPoolPort": {
@@ -209,14 +218,14 @@
       "defaultValue": "vfivepool",
       "minLength": 1,
       "metadata": {
-        "description": "vFive application pool account name"
+        "description": "vFive application pool account name."
       }
     },
     "vFiveApplicationPoolPassword": {
       "type": "securestring",
       "minLength": 1,
       "metadata": {
-        "description": "vFive application pool account password"
+        "description": "vFive application pool account password."
       }
     },
     "nicName": {
@@ -224,7 +233,7 @@
       "defaultValue": "vFiveNic",
       "minLength": 1,
       "metadata": {
-        "description": "The virtual machine network interface name"
+        "description": "Network interface for the VM."
       }
     },
     "publicIPNewOrExisting": {
@@ -235,7 +244,7 @@
         "existing"
       ],
       "metadata": {
-        "description": "Indicates whether the VM IP is new or existing"
+        "description": "Indicates whether the VM public IP address is new or existing"
       }
     },
     "publicIPAddressName": {
@@ -243,7 +252,7 @@
       "defaultValue": "vFivePublicIP",
       "minLength": 1,
       "metadata": {
-        "description": "The virtual machine public IP address"
+        "description": "Public IP address for VM."
       }
     },
     "virtualNetworkName": {
@@ -251,13 +260,12 @@
       "defaultValue": "vFiveVNET",
       "minLength": 1,
       "metadata": {
-        "description": "The virtual network name"
+        "description": "Virtual network for VM."
       }
     },
     "baseUrl": {
       "type": "string",
       "metadata": {
-        "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
       "defaultValue": "https://raw.githubusercontent.com/vFive/vFiveTest/master"
