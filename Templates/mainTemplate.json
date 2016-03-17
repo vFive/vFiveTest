@@ -37,6 +37,7 @@
     },
     "adminUsername": {
       "type": "string",
+      "defaultValue": "vfive",
       "minLength": 1,
       "metadata": {
         "description": "Username for the Virtual Machine."
@@ -107,7 +108,7 @@
     "vFiveSqlInstanceName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "vfivesqlserver",
+      "defaultValue": "tcp:vfivesqlserver.database.windows.net,1433",
       "metadata": {
         "description": "vFive Sql server instance name for existing sql server."
       }
@@ -181,6 +182,7 @@
     },
     "vFiveSQLAccountUserName": {
       "type": "string",
+      "defaultValue": "vfivesql",
       "minLength": 1,
       "metadata": {
         "description": "vFive setup account name"
@@ -204,6 +206,7 @@
     },
     "vFiveApplicationPoolUserName": {
       "type": "string",
+      "defaultValue": "vfivepool",
       "minLength": 1,
       "metadata": {
         "description": "vFive application pool account name"
