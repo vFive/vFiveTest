@@ -10,6 +10,15 @@
         "description": "The vFive manager virtual machine name"
       }
     },
+    "computerName": {
+      "type": "string",
+      "defaultValue": "vFiveManager",
+      "minLength": 1,
+      "maxLength": 15,
+      "metadata": {
+        "description": "The vFive manager virtual machine computer name."
+      }
+    },
     "imageSku": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
@@ -247,7 +256,7 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "dnsPrefix": "",
-    "OSDiskName": "[concat(toLower(parameters('vmName')), '-osdisk-', uniqueString(resourceGroup().id, deployment().name))]",
+    "OSDiskName": "[concat(toLower(parameters('vmName')), '-osdisk')]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
@@ -387,6 +396,9 @@
         "parameters": {
           "vmName": {
             "value": "[parameters('vmName')]"
+          },
+          "computerName": {
+            "value": "[parameters('computerName')]"
           },
           "vhdStorageName": {
             "value": "[parameters('storageAccountName')]"

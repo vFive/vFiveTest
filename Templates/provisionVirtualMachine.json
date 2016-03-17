@@ -3,6 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vmName": { "type": "string" },
+    "computerName": { "type": "string" },
     "vhdStorageName": { "type": "string" },
     "nicName": { "type": "string" },
     "vmSize": { "type": "string" },
@@ -41,7 +42,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[parameters('vmName')]",
+          "computerName": "[parameters('computerName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
