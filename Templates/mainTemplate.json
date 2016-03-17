@@ -104,6 +104,14 @@
         "description": "vFive Sql server name."
       }
     },
+    "vFiveSqlInstanceName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "vfivesqlserver",
+      "metadata": {
+        "description": "vFive Sql server instance name for existing sql server."
+      }
+    },
     "vFiveDatabaseName": {
       "type": "string",
       "minLength": 1,
@@ -448,6 +456,9 @@
         "parameters": {
           "sqlServerName": {
             "value": "[parameters('vFiveSqlServerName')]"
+          },
+          "sqlInstanceName": {
+            "value": "[parameters('vFiveSqlInstanceName')]"
           },
           "adminLogin": {
             "value": "[parameters('vFiveSQLAccountUserName')]"

@@ -3,6 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "sqlServerName": { "type": "string" },
+    "sqlInstanceName": { "type": "string" },
     "adminLogin": {
       "type": "string",
       "minLength": 1
@@ -36,7 +37,7 @@
   ],
   "outputs": {
     "sqlInstanceName": {
-      "value": "[parameters('sqlServerName')]",
+      "value": "[parameters('sqlInstanceName')]",
       "type": "string"
     },
     "sqlInstanceUsername": {
