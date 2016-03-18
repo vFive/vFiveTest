@@ -148,6 +148,7 @@
                 "label": "Storage account",
                 "toolTip": "Disk for Azure virtual machines are created in storage accounts.",
                 "defaultValue": {
+                  "name": "vfive",
                   "type": "Standard_LRS"
                 },
                 "constraints": {
@@ -161,6 +162,13 @@
             "type": "Microsoft.Common.Section",
             "label": "Network",
             "elements": [
+              {
+                "name": "networkInterface",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Network interface name",
+                "toolTip": "Network interface created for VM.",
+                "defaultValue": "vFiveNic"
+              },
               {
                 "name": "virtualNetwork",
                 "type": "Microsoft.Network.VirtualNetworkCombo",
@@ -189,7 +197,7 @@
                     "constraints": {
                       "minAddressPrefixSize": "/24",
                       "minAddressCount": 1,
-                      "requireContiguousAddresses": true
+                      "requireContiguousAddresses": false
                     }
                   }
                 }
