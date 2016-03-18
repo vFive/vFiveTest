@@ -582,7 +582,6 @@
       "adminUsername": "[basics('adminUsername')]",
       "adminPassword": "[basics('adminPassword').password]",
       "vmSize": "[steps('vmSize').vmSize]",
-      "imageSku": "[steps('vmSize').vmSize.imageReference.sku]",
       "storageAccountName": "[steps('vmSettings').storage.storageAccount.name]",
       "storageAccountType": "[steps('vmSettings').storage.storageAccount.type]",
       "storageAccountNewOrExisting": "[steps('vmSettings').storage.storageAccount.newOrExisting]",
