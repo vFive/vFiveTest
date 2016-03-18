@@ -61,11 +61,8 @@
             "toolTip": "The size of the virtual machine.",
             "recommendedSizes": [
               "Standard_A3",
-              "Standard_A4",
               "Standard_D2",
-              "Standard_D3",
-              "Standard_DS3",
-              "Standard_DS3"
+              "Standard_DS2"
             ],
             "constraints": {
               "allowedSizes": [
