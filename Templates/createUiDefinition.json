@@ -134,24 +134,6 @@
             "type": "Microsoft.Common.Section",
             "label": "Storage",
             "elements": [
-              //{
-              //  "name": "diskType",
-              //  "type": "Microsoft.Common.OptionsGroup",
-              //  "label": "Disk type",
-              //  "defaultValue": "Standard",
-              //  "constraints": {
-              //    "allowedValues": [
-              //      {
-              //        "label": "Standard",
-              //        "value": "Standard"
-              //      },
-              //      {
-              //        "label": "Preminum (SSD)",
-              //        "value": "Preminum"
-              //      }
-              //    ]
-              //  }
-              //},
               {
                 "name": "storageAccount",
                 "type": "Microsoft.Storage.StorageAccountSelector",
