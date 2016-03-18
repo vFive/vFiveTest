@@ -238,6 +238,25 @@
         "bladeTitle": "SQL server settings",
         "elements": [
           {
+            "name": "createOrExisting",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "MSSQL",
+            "defaultValue": "New",
+            "toolTip": "New: Auto create a new SQL server<br/><br/>Exist: Use existing SQL server",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "New",
+                  "value": "new"
+                },
+                {
+                  "label": "Exist",
+                  "value": "existing"
+                },
+              ]
+            }
+          },
+          {
             "name": "newSQLdescription",
             "type": "Microsoft.Common.Section",
             "label": "If you want to create a new SQL server, please input the SQL server name.",
@@ -544,15 +563,52 @@
               "regex": "^0*([1-9][0-9]{0,3}|[1-5][0-9]{4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3})$",
               "validationMessage": "Port must be between 1 and 65535."
             }
+          },
+          {
+            "name": "vFiveManagerPackageUrl",
+            "type": "Microsoft.Common.TextBox",
+            "label": "vFive manager package url",
+            "toolTip": "vFive manager package url.",
+            "constraints": {
+              "required": true
+            }
           }
         ]
       }
     ],
     "outputs": {
-      "location": "[location()]",
-      "adminUsername": "[steps('basics').adminUsername]",
-      "adminPassword": "[steps('basics').adminPassword]"
-
+      "vmName": "[basics('vmName')]",
+      "computerName": "[basics('vmName')]",
+      "adminUsername": "[basics('adminUsername')]",
+      "adminPassword": "[basics('adminPassword').password]",
+      "vmSize": "[steps('vmSize').vmSize]",
+      "imageSku": "[steps('vmSize').vmSize.imageReference.sku]",
+      "storageAccountName": "[steps('vmSettings').storage.storageAccount.name]",
+      "storageAccountType": "[steps('vmSettings').storage.storageAccount.type]",
+      "storageAccountNewOrExisting": "[steps('vmSettings').storage.storageAccount.newOrExisting]",
+      "packageUrl": "[steps('vFiveSettings').vFiveManagerPackageUrl]",
+      "sqlServerNewOrExisting": "[steps('sqlServerSettings').createOrExisting]",
+      "vFiveSqlServerName": "[steps('sqlServerSettings').newSQLdescription.sqlServerName]",
+      "vFiveSqlInstanceName": "[steps('sqlServerSettings').existingSQLdescription.sqlInstanceName]",
+      "vFiveDatabaseName": "[steps('dbSettings').controlDBName]",
+      "databaseCollation": "[steps('dbSettings').newDBdescription.databaseCollation]",
+      "databaseEdition": "[steps('dbSettings').newDBdescription.databaseEdition]",
+      "databaseMaxSizeBytes": "[steps('dbSettings').newDBdescription.databaseMaxSizeBytes]",
+      "databaseRequestedServiceObjectiveName": "[steps('dbSettings').newDBdescription.databaseRequestedServiceObjectiveName]",
+      "isSqlServerWindowsAuthentication": "[steps('sqlServerSettings').existingSQLdescription.isWindowsAuthentication]",
+      "vFiveSQLAccountUserName": "[steps('sqlServerSettings').sqlAdminUsername]",
+      "vFiveSQLAccountPassword": "[steps('sqlServerSettings').sqlAdminPassword.password]",
+      "vFiveApplicationPoolPort": "[steps('vFiveSettings').appPoolPort]",
+      "vFiveApplicationPoolUserName": "[steps('vFiveSettings').appPoolUsername]",
+      "vFiveApplicationPoolPassword": "[steps('sqlServerSettings').appPoolPassword.password]",
+      "nicName": "[steps('vmSettings').network.networkInterface]",
+      "publicIPNewOrExisting": "[steps('vmSettings').network.publicIP.newOrExistingOrNone]",
+      "publicIPAddressName": "[steps('vmSettings').network.publicIP.name]",
+      "virtualNetworkName": "[steps('vmSettings').network.virtualNetwork.name]",
+      "virtualNetworkNewOrExisting": "[steps('vmSettings').network.virtualNetwork.newOrExisting]",
+      "addressPrefix": "[steps('vmSettings').virtualNetwork.addressPrefix]",
+      "subnetName": "[steps('vmSettings').virtualNetwork.subnets.subnet1.name]",
+      "subnetPrefix": "[steps('vmSettings').virtualNetwork.subnets.subnet1.addressPrefix]"
     }
   }
 }
