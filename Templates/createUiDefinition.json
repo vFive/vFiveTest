@@ -169,7 +169,7 @@
                   "addressPrefixSize": "/16"
                 },
                 "constraints": {
-                  "minAddressPrefixSize": "/29"
+                  "minAddressPrefixSize": "/24"
                 },
                 "subnets": {
                   "subnet1": {
@@ -179,9 +179,9 @@
                       "addressPrefixSize": "/24"
                     },
                     "constraints": {
-                      "minAddressPrefixSize": "/29",
-                      "minAddressCount": 1,
-                      "requireContiguousAddresses": false
+                      "minAddressPrefixSize": "/24",
+                      "minAddressCount": 12,
+                      "requireContiguousAddresses": true
                     }
                   }
                 }
@@ -495,7 +495,6 @@
             "label": "Application pool username.",
             "toolTip": "Application pool username.",
             "osPlatform": "Windows",
-            "defaultValue": "[steps('basics').adminUsername]",
             "constraints": {
               "required": true
             }
@@ -511,7 +510,6 @@
               "password": "Application pool username."
             },
             "osPlatform": "Windows",
-            "defaultValue": "[steps('basics').adminPassword]",
             "constraints": {
               "required": true
             },
