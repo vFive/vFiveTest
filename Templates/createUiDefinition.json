@@ -242,7 +242,7 @@
               {
                 "name": "sqlInstanceName",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Database Hostname",
+                "label": "SQL server instance name",
                 "toolTip": "It's required if you want to use an existing SQL server."
               },
               {
@@ -322,16 +322,6 @@
             "type": "Microsoft.Common.Section",
             "label": "If you want to create a new database, please input the follow settings.",
             "elements": [
-              {
-                "name": "databaseCollation",
-                "type": "Microsoft.Common.TextBox",
-                "label": "Database collation",
-                "toolTip": "It's required if you want to create a database.",
-                "defaultValue": "SQL_Latin1_General_CP1_CI_AS",
-                "constraints": {
-                  "required": false
-                }
-              },
               {
                 "name": "databaseCollation",
                 "type": "Microsoft.Common.TextBox",
@@ -451,7 +441,7 @@
                 "type": "Microsoft.Common.DropDown",
                 "label": "Describes the performance level for database edition",
                 "toolTip": "It's required if you want to create a database.",
-                "defaultValue": "Standard",
+                "defaultValue": "S0",
                 "constraints": {
                   "required": false,
                   "allowedValues": [
@@ -505,8 +495,9 @@
             "label": "Application pool username.",
             "toolTip": "Application pool username.",
             "osPlatform": "Windows",
+            "defaultValue": "[steps('basics').adminUsername]",
             "constraints": {
-              "required": false
+              "required": true
             }
           },
           {
@@ -517,11 +508,12 @@
               "confirmPassword": "Confirm password"
             },
             "toolTip": {
-              "password": "Application pool user password."
+              "password": "Application pool username."
             },
             "osPlatform": "Windows",
+            "defaultValue": "[steps('basics').adminPassword]",
             "constraints": {
-              "required": false
+              "required": true
             },
             "options": {
               "hideConfirmation": true
@@ -532,7 +524,7 @@
             "type": "Microsoft.Common.TextBox",
             "label": "Application pool port",
             "defaultValue": "15001",
-            "toolTip": "Application pool port.",
+            "toolTip": "Application pool port. The value must be between 1 and 65535.",
             "constraints": {
               "required": true,
               "regex": "^0*([1-9][0-9]{0,3}|[1-5][0-9]{4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3})$",
