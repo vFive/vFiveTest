@@ -239,25 +239,6 @@
         },
         "bladeTitle": "SQL server settings",
         "elements": [
-          //{
-          //  "name": "createOrExisting",
-          //  "type": "Microsoft.Common.OptionsGroup",
-          //  "label": "MSSQL",
-          //  "defaultValue": "New",
-          //  "toolTip": "New: Auto create a new SQL server<br/><br/>Exist: Use an existing SQL server.",
-          //  "constraints": {
-          //    "allowedValues": [
-          //      {
-          //        "label": "New",
-          //        "value": "new"
-          //      },
-          //      {
-          //        "label": "Exist",
-          //        "value": "existing"
-          //      }
-          //    ]
-          //  }
-          //},
           {
             "name": "newSQLdescription",
             "type": "Microsoft.Common.Section",
@@ -342,25 +323,6 @@
         },
         "bladeTitle": "Database settings",
         "elements": [
-          //{
-          //  "name": "createOrExisting",
-          //  "type": "Microsoft.Common.OptionsGroup",
-          //  "label": "Database",
-          //  "defaultValue": "New",
-          //  "toolTip": "New: Auto create a new database<br/><br/>Exist: Use an existing database.",
-          //  "constraints": {
-          //    "allowedValues": [
-          //      {
-          //        "label": "New",
-          //        "value": "new"
-          //      },
-          //      {
-          //        "label": "Exist",
-          //        "value": "existing"
-          //      }
-          //    ]
-          //  }
-          //},
           {
             "name": "controlDBName",
             "type": "Microsoft.Common.TextBox",
