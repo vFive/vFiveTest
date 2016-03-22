@@ -7,7 +7,7 @@
       "defaultValue": "vFiveAgent",
       "minLength": 1,
       "metadata": {
-        "description": "The vFive manager virtual machine name"
+        "description": "The vFive agent virtual machine name"
       }
     },
     "computerName": {
@@ -16,14 +16,14 @@
       "minLength": 1,
       "maxLength": 15,
       "metadata": {
-        "description": "The vFive manager virtual machine computer name."
+        "description": "The vFive agent virtual machine computer name."
       }
     },
     "imageSku": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
       "metadata": {
-        "description": "The vFive manager virtual machine image sku."
+        "description": "The vFive agent virtual machine image sku."
       }
     },
     "vmSize": {
@@ -31,7 +31,7 @@
       "defaultValue": "Standard_A2",
       "minLength": 1,
       "metadata": {
-        "description": "The vFive manager virtual machine size."
+        "description": "The vFive agent virtual machine size."
       }
     },
     "adminUsername": {

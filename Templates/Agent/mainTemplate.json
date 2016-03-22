@@ -4,26 +4,26 @@
   "parameters": {
     "vmName": {
       "type": "string",
-      "defaultValue": "vFiveManager",
+      "defaultValue": "vFiveAgent",
       "minLength": 1,
       "metadata": {
-        "description": "The vFive manager virtual machine name"
+        "description": "The vFive agent virtual machine name"
       }
     },
     "computerName": {
       "type": "string",
-      "defaultValue": "vFiveManager",
+      "defaultValue": "vFiveAgent",
       "minLength": 1,
       "maxLength": 15,
       "metadata": {
-        "description": "The vFive manager virtual machine computer name."
+        "description": "The vFive agent virtual machine computer name."
       }
     },
     "imageSku": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
       "metadata": {
-        "description": "The vFive manager virtual machine image sku."
+        "description": "The vFive agent virtual machine image sku."
       }
     },
     "vmSize": {
@@ -31,7 +31,7 @@
       "defaultValue": "Standard_A2",
       "minLength": 1,
       "metadata": {
-        "description": "The vFive manager virtual machine size."
+        "description": "The vFive agent virtual machine size."
       }
     },
     "adminUsername": {
@@ -86,146 +86,60 @@
         "description": "vFive package sas token for azure storage account."
       }
     },
-    "sqlServerNewOrExisting": {
-      "type": "string",
-      "defaultValue": "new",
-      "allowedValues": [
-        "new",
-        "existing"
-      ],
+    "agentPort": {
+      "type": "int",
+      "defaultValue": 15003,
+      "minValue": 1,
+      "maxValue": 65535,
       "metadata": {
-        "Description": "Indicates whether the SQL server is new or existing."
+        "description": "vFive agent communication port."
       }
     },
-    "vFiveSqlServerName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "vfivesqlserver",
+    "agentDataPort": {
+      "type": "int",
+      "defaultValue": 15003,
+      "minValue": 1,
+      "maxValue": 65535,
       "metadata": {
-        "description": "vFive Sql server name."
+        "description": "vFive agent data transfer port."
       }
     },
-    "vFiveSqlInstanceName": {
+    "agentAccountUserName": {
       "type": "string",
-      "minLength": 1,
-      "defaultValue": "tcp:vfivesqlserver.database.windows.net,1433",
-      "metadata": {
-        "description": "The instance name for existing SQL server."
-      }
-    },
-    "vFiveDatabaseName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "vFive_ControlDatabase",
-      "metadata": {
-        "description": "Manager control database name."
-      }
-    },
-    "databaseCollation": {
-      "type": "string",
-      "defaultValue": "SQL_Latin1_General_CP1_CI_AS",
-      "metadata": {
-        "description": "Control database collation."
-      }
-    },
-    "databaseEdition": {
-      "type": "string",
-      "defaultValue": "Standard",
-      "allowedValues": [
-        "Basic",
-        "Standard",
-        "Premium"
-      ],
-      "metadata": {
-        "description": "Control database edition."
-      }
-    },
-    "databaseMaxSizeBytes": {
-      "type": "string",
-      "defaultValue": "1073741824",
-      "allowedValues": [
-        "104857600",
-        "524288000",
-        "1073741824",
-        "2147483648",
-        "5368709120",
-        "10737418240",
-        "21474836480",
-        "32212254720",
-        "42949672960",
-        "53687091200",
-        "107374182400",
-        "161061273600",
-        "214748364800",
-        "268435456000",
-        "322122547200",
-        "429496729600",
-        "536870912000"
-      ],
-      "metadata": {
-        "description": "Control database max size in bytes."
-      }
-    },
-    "databaseRequestedServiceObjectiveName": {
-      "type": "string",
-      "defaultValue": "S0",
-      "allowedValues": [
-        "Basic",
-        "S0",
-        "S1",
-        "S2",
-        "P1",
-        "P2",
-        "P3"
-      ],
-      "metadata": {
-        "description": "Describes the performance level for Edition."
-      }
-    },
-    "isSqlServerWindowsAuthentication": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "vFive manager SQL server is windows authentication."
-      }
-    },
-    "vFiveSQLAccountUserName": {
-      "type": "string",
-      "defaultValue": "vfivesql",
+      "defaultValue": "vFiveAgent",
       "minLength": 1,
       "metadata": {
-        "description": "vFive SQL server account name."
+        "description": "vFive agent account name."
       }
     },
-    "vFiveSQLAccountPassword": {
+    "agentAccountPassword": {
       "type": "securestring",
       "minLength": 1,
       "metadata": {
-        "description": "vFive SQL server account password."
+        "description": "vFive agent account password."
       }
     },
-    "vFiveApplicationPoolPort": {
+    "managerAddress": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Agent will use this address to communication with manager."
+      }
+    },
+    "managerPort": {
       "type": "int",
       "minValue": 1,
       "maxValue": 65535,
       "defaultValue": 15001,
       "metadata": {
-        "description": "vFive application pool port."
+        "description": "vFive manager port."
       }
     },
-    "vFiveApplicationPoolUserName": {
-      "type": "string",
-      "defaultValue": "vfivepool",
-      "minLength": 1,
-      "metadata": {
-        "description": "vFive application pool account name."
-      }
-    },
-    "vFiveApplicationPoolPassword": {
+    "managerPassphrase": {
       "type": "securestring",
       "minLength": 1,
       "metadata": {
-        "description": "vFive application pool account password."
+        "description": "Manager passphrase."
       }
     },
     "nicName": {
@@ -257,7 +171,7 @@
     },
     "virtualNetworkNewOrExisting": {
       "type": "string",
-      "defaultValue": "new",
+      "defaultValue": "existing",
       "allowedValues": [
         "new",
         "existing"
@@ -309,23 +223,22 @@
   "variables": {
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
-    "dnsPrefix": "",
+    "dnsPrefix": "[toLower(parameters('vmName'))]",
     "OSDiskName": "[concat(toLower(parameters('vmName')), '-osdisk')]",
     "publicIPAddressType": "Dynamic",
     "vhdStorageContainerName": "vhds",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
-    "dscExtensionName": "InstallManager",
+    "dscExtensionName": "InstallvFive",
     "dscConfgureModulesURL": "[concat(parameters('baseUrl'), '/dsc.zip')]",
-    "installManagerFunction": "InstallManager.ps1\\InstallManager",
+    "installAgentFunction": "InstallAgent.ps1\\InstallAgent",
     "templateFolder": "Templates",
     "storageAccountTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/storageAccount-', parameters('storageAccountNewOrExisting'),'.json')]",
     "publicIPAddressTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/publicIP-', parameters('publicIPNewOrExisting'),'.json')]",
     "virtualNetworkTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/setupVirtualNetwork.json')]",
     "networkInterfaceTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/setupNetworkInterface.json')]",
-    "provisionManagerVMTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/provisionVirtualMachine.json')]",
-    "provisionSQLServerTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/sqlServer-', parameters('sqlServerNewOrExisting') ,'.json')]",
-    "installManagerTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/installvFiveManager.json')]"
+    "provisionAgentVMTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/provisionVirtualMachine.json')]",
+    "installAgentTemplateUrl": "[concat(parameters('baseUrl'), '/', variables('templateFolder'), '/Agent/installvFiveAgent.json')]"
   },
   "resources": [
     {
@@ -431,7 +344,7 @@
       }
     },
     {
-      "name": "ProvisionManagerVM",
+      "name": "ProvisionAgentVM",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
@@ -441,7 +354,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('provisionManagerVMTemplateUrl')]",
+          "uri": "[variables('provisionAgentVMTemplateUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -485,53 +398,7 @@
       }
     },
     {
-      "name": "ProvisionSQLServer",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('provisionSQLServerTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "sqlServerName": {
-            "value": "[parameters('vFiveSqlServerName')]"
-          },
-          "sqlInstanceName": {
-            "value": "[parameters('vFiveSqlInstanceName')]"
-          },
-          "adminLogin": {
-            "value": "[parameters('vFiveSQLAccountUserName')]"
-          },
-          "adminLoginPassword": {
-            "value": "[parameters('vFiveSQLAccountPassword')]"
-          },
-          "isSqlServerWindowsAuthentication": {
-            "value": "[parameters('isSqlServerWindowsAuthentication')]"
-          },
-          "databaseName": {
-            "value": "[parameters('vFiveDatabaseName')]"
-          },
-          "edition": {
-            "value": "[parameters('databaseEdition')]"
-          },
-          "collation": {
-            "value": "[parameters('databaseCollation')]"
-          },
-          "maxSizeBytes": {
-            "value": "[parameters('databaseMaxSizeBytes')]"
-          },
-          "requestedServiceObjectiveName": {
-            "value": "[parameters('databaseRequestedServiceObjectiveName')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "InstallManager",
+      "name": "InstallAgent",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
@@ -541,7 +408,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('installManagerTemplateUrl')]",
+          "uri": "[variables('installAgentTemplateUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -554,8 +421,8 @@
           "installvFiveModulesURL": {
             "value": "[variables('dscConfgureModulesURL')]"
           },
-          "installvFiveManagerFunction": {
-            "value": "[variables('installManagerFunction')]"
+          "installvFiveAgentFunction": {
+            "value": "[variables('installAgentFunction')]"
           },
           "packageSasToken": {
             "value": "[parameters('packageSasToken')]"
@@ -563,29 +430,29 @@
           "packageUrl": {
             "value": "[parameters('packageUrl')]"
           },
-          "vFiveSQLAccountUserName": {
-            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceUsername.value]"
+          "agentAddress": {
+            "value": "[concat(parameters('computerName'), '.', resourceGroup().location, '.cloudapp.azure.com')]"
           },
-          "vFiveSQLAccountPassword": {
-            "value": "[parameters('vFiveSQLAccountPassword')]"
+          "port": {
+            "value": "[parameters('agentPort')]"
           },
-          "sqlServerInstanceName": {
-            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.sqlInstanceName.value]"
+          "dataPort": {
+            "value": "[parameters('agentDataPort')]"
           },
-          "sqlServerIsIntegrated": {
-            "value": "[reference('Microsoft.Resources/deployments/ProvisionSQLServer','2015-01-01').outputs.isSqlWindowsAuthentication.value]"
+          "agentAccountUserName": {
+            "value": "[parameters('agentAccountUserName')]"
           },
-          "databaseName": {
-            "value": "[parameters('vFiveDatabaseName')]"
+          "agentAccountPassword": {
+            "value": "[parameters('agentAccountPassword')]"
           },
-          "vFiveApplicationPoolPort": {
-            "value": "[parameters('vFiveApplicationPoolPort')]"
+          "managerAddress": {
+            "value": "[parameters('managerAddress')]"
           },
-          "vFiveApplicationPoolUserName": {
-            "value": "[parameters('vFiveApplicationPoolUserName')]"
+          "managerPort": {
+            "value": "[parameters('managerPort')]"
           },
-          "vFiveApplicationPoolPassword": {
-            "value": "[parameters('vFiveApplicationPoolPassword')]"
+          "managerPassphrase": {
+            "value": "[parameters('managerPassphrase')]"
           },
           "adminAccountUserName": {
             "value": "[parameters('adminUsername')]"
