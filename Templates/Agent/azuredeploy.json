@@ -402,8 +402,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/ProvisionManagerVM",
-        "Microsoft.Resources/deployments/ProvisionSQLServer"
+        "Microsoft.Resources/deployments/ProvisionAgentVM"
       ],
       "properties": {
         "mode": "Incremental",
