@@ -1,0 +1,614 @@
+﻿{
+  "handler": "Microsoft.Compute.MultiVm",
+  "version": "0.0.1-preview",
+  "parameters": {
+    "basics": [
+      {
+        "name": "vmName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "VM name",
+        "toolTip": "VM name for vFive manager.",
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true,
+          "regex": "^[a-zA-Z0-9-]{1,15}$",
+          "validationMessage": "Only letters, numbers and minus sign are allowed, and the value must be 1-15 characters long."
+        }
+      },
+      {
+        "name": "adminUsername",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "Username",
+        "toolTip": "Admin username for the virtual machines.",
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        }
+      },
+      {
+        "name": "adminPassword",
+        "type": "Microsoft.Compute.CredentialsCombo",
+        "label": {
+          "password": "Password",
+          "confirmPassword": "Confirm password"
+        },
+        "toolTip": {
+          "password": "Admin password for the virtual machines."
+        },
+        "osPlatform": "Windows",
+        "constraints": {
+          "required": true
+        },
+        "options": {
+          "hideConfirmation": true
+        }
+      }
+    ],
+    "steps": [
+      {
+        "name": "vmSize",
+        "label": "Size",
+        "subLabel": {
+          "preValidation": "Choose virtual machine size",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Size",
+        "elements": [
+          {
+            "name": "vmSize",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Virtual machine size.",
+            "toolTip": "The size of the virtual machine.",
+            "recommendedSizes": [
+              "Standard_A3",
+              "Standard_D2",
+              "Standard_DS2"
+            ],
+            "constraints": {
+              "allowedSizes": [
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_A5",
+                "Standard_A6",
+                "Standard_A7",
+                "Standard_A8",
+                "Standard_A9",
+                "Standard_A10",
+                "Standard_A11",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS11",
+                "Standard_DS12",
+                "Standard_DS13",
+                "Standard_DS14",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_D11",
+                "Standard_D12",
+                "Standard_D13",
+                "Standard_D14",
+                "Standard_D2_v2",
+                "Standard_D3_v2",
+                "Standard_D4_v2",
+                "Standard_D5_v2",
+                "Standard_D11_v2",
+                "Standard_D12_v2",
+                "Standard_D13_v2",
+                "Standard_D14_v2",
+                "Standard_G1",
+                "Standard_G2",
+                "Standard_G3",
+                "Standard_G4",
+                "Standard_G5",
+                "Standard_GS1",
+                "Standard_GS2",
+                "Standard_GS3",
+                "Standard_GS4",
+                "Standard_GS5",
+                "Basic_A0",
+                "Basic_A1",
+                "Basic_A2",
+                "Basic_A3",
+                "Basic_A4"
+              ]
+            },
+            "osPlatform": "Windows",
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-R2-Datacenter"
+            },
+            "count": 1
+          }
+        ]
+      },
+      {
+        "name": "vmSettings",
+        "label": "VM Settings",
+        "subLabel": {
+          "preValidation": "Configure VM settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "VM Settings",
+        "elements": [
+          {
+            "name": "storage",
+            "type": "Microsoft.Common.Section",
+            "label": "Storage",
+            "elements": [
+              {
+                "name": "storageAccount",
+                "type": "Microsoft.Storage.StorageAccountSelector",
+                "label": "Storage account",
+                "toolTip": "Disk for Azure virtual machines are created in storage accounts.",
+                "defaultValue": {
+                  "name": "vfive",
+                  "type": "Standard_LRS"
+                },
+                "constraints": {
+                  "required": true
+                }
+              }
+            ]
+          },
+          {
+            "name": "network",
+            "type": "Microsoft.Common.Section",
+            "label": "Network",
+            "elements": [
+              {
+                "name": "networkInterface",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Network interface name",
+                "toolTip": "Network interface created for VM.",
+                "defaultValue": "vFiveNic"
+              },
+              {
+                "name": "virtualNetwork",
+                "type": "Microsoft.Network.VirtualNetworkCombo",
+                "label": {
+                  "virtualNetwork": "Virtual network",
+                  "subnets": "Subnets"
+                },
+                "toolTip": {
+                  "virtualNetwork": "Virtual networks are logically isolated from each other in Azure. You can configure their IP address ranges, subnets, route tables, gateways, and security settings, much like a traditional network in your data center. Virtual machines in the same virtual network can access each other by default.",
+                  "subnets": "A subnet is a range of IP addresses in your virtual network, which can be used to isolated virtual machines from each other or from the Internet."
+                },
+                "defaultValue": {
+                  "name": "vFiveVNet",
+                  "addressPrefixSize": "/16"
+                },
+                "constraints": {
+                  "minAddressPrefixSize": "/24"
+                },
+                "subnets": {
+                  "subnet1": {
+                    "label": "Subnet 1",
+                    "defaultValue": {
+                      "name": "default",
+                      "addressPrefixSize": "/24"
+                    },
+                    "constraints": {
+                      "minAddressPrefixSize": "/24",
+                      "minAddressCount": 1,
+                      "requireContiguousAddresses": false
+                    }
+                  }
+                }
+              },
+              {
+                "name": "publicIP",
+                "type": "Microsoft.Network.PublicIpAddressCombo",
+                "label": {
+                  "publicIpAddress": "Public IP address"
+                },
+                "toolTip": {
+                  "publicIpAddress": "Public IP address for VM."
+                },
+                "defaultValue": {
+                  "publicIpAddressName": "vFivePublicIP"
+                },
+                "options": {
+                  "hideNone": true,
+                  "hideDomainNameLabel": true
+                },
+                "constraints": {
+                  "required": {
+                    "publicIpAddress": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "sqlServerSettings",
+        "label": "SQL server settings",
+        "subLabel": {
+          "preValidation": "Configure the SQL server settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "SQL server settings",
+        "elements": [
+          {
+            "name": "createOrExisting",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "MSSQL",
+            "defaultValue": "New",
+            "toolTip": "New: Auto create a new SQL server<br/><br/>Exist: Use existing SQL server",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "New",
+                  "value": "new"
+                },
+                {
+                  "label": "Exist",
+                  "value": "existing"
+                }
+              ]
+            }
+          },
+          {
+            "name": "newSQLdescription",
+            "type": "Microsoft.Common.Section",
+            "label": "If you want to create a new SQL server, please input the SQL server name.",
+            "elements": [
+              {
+                "name": "sqlServerName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "SQL server name",
+                "toolTip": "It's required if you want to create a SQL server."
+              }
+            ]
+          },
+          {
+            "name": "existingSQLdescription",
+            "type": "Microsoft.Common.Section",
+            "label": "If you want to use your existing SQL server, please input the SQL server instance name and authentication.",
+            "elements": [
+              {
+                "name": "sqlInstanceName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "SQL server instance name",
+                "toolTip": "It's required if you want to use an existing SQL server."
+              },
+              {
+                "name": "isWindowsAuthentication",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Authentication",
+                "toolTip": "It's required if you want to use an existing SQL server.",
+                "defaultValue": "SQL Server Authentication",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Windows Authentication",
+                      "value": true
+                    },
+                    {
+                      "label": "SQL Server Authentication",
+                      "value": false
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "sqlAdminUsername",
+            "type": "Microsoft.Compute.UserNameTextBox",
+            "label": "SQL server admin username.",
+            "toolTip": "SQL server admin username.",
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "sqlAdminPassword",
+            "type": "Microsoft.Compute.CredentialsCombo",
+            "label": {
+              "password": "SQL server admin password",
+              "confirmPassword": "Confirm password"
+            },
+            "toolTip": {
+              "password": "SQL server admin password."
+            },
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            },
+            "options": {
+              "hideConfirmation": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "dbSettings",
+        "label": "Database settings",
+        "subLabel": {
+          "preValidation": "vFive database settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Database settings",
+        "elements": [
+          {
+            "name": "controlDBName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Control database name",
+            "defaultValue": "vFive_ControlDatabase",
+            "toolTip": "Control database name.",
+            "constraints": {
+              "required": true,
+              "regex": "^[^<>\\*%&:\\\\/?]{0,127}[^<>\\*%&:\\\\/?\\.]$",
+              "validationMessage": "Database name can't end with '.', can't contain '<,>,*,%,&,:,\\,/,?', and can't have more than 128 characters."
+            }
+          },
+          {
+            "name": "newDBdescription",
+            "type": "Microsoft.Common.Section",
+            "label": "If you want to create a new database, please input the follow settings.",
+            "elements": [
+              {
+                "name": "databaseCollation",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Database collation",
+                "toolTip": "It's required if you want to create a database.",
+                "defaultValue": "SQL_Latin1_General_CP1_CI_AS",
+                "constraints": {
+                  "required": false
+                }
+              },
+              {
+                "name": "databaseEdition",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Database edition",
+                "toolTip": "It's required if you want to create a database.",
+                "defaultValue": "Standard",
+                "constraints": {
+                  "required": false,
+                  "allowedValues": [
+                    {
+                      "label": "Basic",
+                      "value": "Basic"
+                    },
+                    {
+                      "label": "Standard",
+                      "value": "Standard"
+                    },
+                    {
+                      "label": "Premium",
+                      "value": "Premium"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "databaseMaxSizeBytes",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Database max size",
+                "toolTip": "It's required if you want to create a database.",
+                "defaultValue": "1 GB",
+                "constraints": {
+                  "required": false,
+                  "allowedValues": [
+                    {
+                      "label": "100 MB",
+                      "value": "104857600"
+                    },
+                    {
+                      "label": "500 MB",
+                      "value": "524288000"
+                    },
+                    {
+                      "label": "1 GB",
+                      "value": "1073741824"
+                    },
+                    {
+                      "label": "2 GB",
+                      "value": "2147483648"
+                    },
+                    {
+                      "label": "5 GB",
+                      "value": "5368709120"
+                    },
+                    {
+                      "label": "10 GB",
+                      "value": "10737418240"
+                    },
+                    {
+                      "label": "20 GB",
+                      "value": "21474836480"
+                    },
+                    {
+                      "label": "30 GB",
+                      "value": "32212254720"
+                    },
+                    {
+                      "label": "40 GB",
+                      "value": "42949672960"
+                    },
+                    {
+                      "label": "50 GB",
+                      "value": "53687091200"
+                    },
+                    {
+                      "label": "100 GB",
+                      "value": "107374182400"
+                    },
+                    {
+                      "label": "150 GB",
+                      "value": "161061273600"
+                    },
+                    {
+                      "label": "200 GB",
+                      "value": "214748364800"
+                    },
+                    {
+                      "label": "250 GB",
+                      "value": "268435456000"
+                    },
+                    {
+                      "label": "300 GB",
+                      "value": "322122547200"
+                    },
+                    {
+                      "label": "400 GB",
+                      "value": "429496729600"
+                    },
+                    {
+                      "label": "500 GB",
+                      "value": "536870912000"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "databaseRequestedServiceObjectiveName",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Describes the performance level for database edition",
+                "toolTip": "It's required if you want to create a database.",
+                "defaultValue": "S0",
+                "constraints": {
+                  "required": false,
+                  "allowedValues": [
+                    {
+                      "label": "Basic",
+                      "value": "Basic"
+                    },
+                    {
+                      "label": "S0",
+                      "value": "S0"
+                    },
+                    {
+                      "label": "S1",
+                      "value": "S1"
+                    },
+                    {
+                      "label": "S2",
+                      "value": "S2"
+                    },
+                    {
+                      "label": "P1",
+                      "value": "P1"
+                    },
+                    {
+                      "label": "P2",
+                      "value": "P2"
+                    },
+                    {
+                      "label": "P3",
+                      "value": "P3"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vFiveSettings",
+        "label": "vFive settings",
+        "subLabel": {
+          "preValidation": "Configure the vFive settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "vFive settings",
+        "elements": [
+          {
+            "name": "appPoolUsername",
+            "type": "Microsoft.Compute.UserNameTextBox",
+            "label": "Application pool username.",
+            "toolTip": "Application pool username.",
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "appPoolPassword",
+            "type": "Microsoft.Compute.CredentialsCombo",
+            "label": {
+              "password": "Application pool user password",
+              "confirmPassword": "Confirm password"
+            },
+            "toolTip": {
+              "password": "Application pool username."
+            },
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            },
+            "options": {
+              "hideConfirmation": true
+            }
+          },
+          {
+            "name": "appPoolPort",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Application pool port",
+            "defaultValue": "15001",
+            "toolTip": "Application pool port. The value must be between 1 and 65535.",
+            "constraints": {
+              "required": true,
+              "regex": "^0*([1-9][0-9]{0,3}|[1-5][0-9]{4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3})$",
+              "validationMessage": "Port must be between 1 and 65535."
+            }
+          },
+          {
+            "name": "vFiveManagerPackageUrl",
+            "type": "Microsoft.Common.TextBox",
+            "label": "vFive manager package url",
+            "toolTip": "vFive manager package url.",
+            "constraints": {
+              "required": true
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "vmName": "[basics('vmName')]",
+      "computerName": "[basics('vmName')]",
+      "adminUsername": "[basics('adminUsername')]",
+      "adminPassword": "[basics('adminPassword').password]",
+      "vmSize": "[steps('vmSize').vmSize]",
+      "imageSku": "[steps('vmSize').vmSize.imageReference.sku]",
+      "storageAccountName": "[steps('vmSettings').storage.storageAccount.name]",
+      "storageAccountType": "[steps('vmSettings').storage.storageAccount.type]",
+      "storageAccountNewOrExisting": "[steps('vmSettings').storage.storageAccount.newOrExisting]",
+      "packageUrl": "[steps('vFiveSettings').vFiveManagerPackageUrl]",
+      "sqlServerNewOrExisting": "[steps('sqlServerSettings').createOrExisting]",
+      "vFiveSqlServerName": "[steps('sqlServerSettings').newSQLdescription.sqlServerName]",
+      "vFiveSqlInstanceName": "[steps('sqlServerSettings').existingSQLdescription.sqlInstanceName]",
+      "vFiveDatabaseName": "[steps('dbSettings').controlDBName]",
+      "databaseCollation": "[steps('dbSettings').newDBdescription.databaseCollation]",
+      "databaseEdition": "[steps('dbSettings').newDBdescription.databaseEdition]",
+      "databaseMaxSizeBytes": "[steps('dbSettings').newDBdescription.databaseMaxSizeBytes]",
+      "databaseRequestedServiceObjectiveName": "[steps('dbSettings').newDBdescription.databaseRequestedServiceObjectiveName]",
+      "isSqlServerWindowsAuthentication": "[steps('sqlServerSettings').existingSQLdescription.isWindowsAuthentication]",
+      "vFiveSQLAccountUserName": "[steps('sqlServerSettings').sqlAdminUsername]",
+      "vFiveSQLAccountPassword": "[steps('sqlServerSettings').sqlAdminPassword.password]",
+      "vFiveApplicationPoolPort": "[steps('vFiveSettings').appPoolPort]",
+      "vFiveApplicationPoolUserName": "[steps('vFiveSettings').appPoolUsername]",
+      "vFiveApplicationPoolPassword": "[steps('sqlServerSettings').appPoolPassword.password]",
+      "nicName": "[steps('vmSettings').network.networkInterface]",
+      "publicIPNewOrExisting": "[steps('vmSettings').network.publicIP.newOrExistingOrNone]",
+      "publicIPAddressName": "[steps('vmSettings').network.publicIP.name]",
+      "virtualNetworkName": "[steps('vmSettings').network.virtualNetwork.name]",
+      "virtualNetworkNewOrExisting": "[steps('vmSettings').network.virtualNetwork.newOrExisting]",
+      "addressPrefix": "[steps('vmSettings').virtualNetwork.addressPrefix]",
+      "subnetName": "[steps('vmSettings').virtualNetwork.subnets.subnet1.name]",
+      "subnetPrefix": "[steps('vmSettings').virtualNetwork.subnets.subnet1.addressPrefix]"
+    }
+  }
+}

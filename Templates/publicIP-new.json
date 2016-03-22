@@ -18,7 +18,10 @@
         "displayName": "PublicIPAddress"
       },
       "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsPrefix')]"
+        }
       }
     }
   ],

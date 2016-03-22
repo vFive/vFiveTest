@@ -1,0 +1,86 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": { "type": "string" },
+    "extensionName": { "type": "string" },
+    "installvFiveModulesURL": { "type": "string" },
+    "installvFiveAgentFunction": { "type": "string" },
+    "packageUrl": { "type": "string" },
+    "packageSasToken": { "type": "securestring" },
+    "agentAddress": { "type": "string" },
+    "port": { "type": "int" },
+    "dataPort": { "type": "int" },
+    "agentAccountUserName": { "type": "string" },
+    "agentAccountPassword": { "type": "securestring" },
+    "managerAddress": { "type": "string" },
+    "managerPort": { "type": "int" },
+    "managerPassphrase": { "type": "securestring" },
+    "adminAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The account must be domain admin if the application pool user is domain user."
+      }
+    },
+    "adminAccountPassword": { "type": "securestring" }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('vmName'), '/', parameters('extensionName'))]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+      ],
+      "tags": {
+        "displayName": "InstallvFiveManager"
+      },
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.9",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesUrl": "[parameters('installvFiveModulesURL')]",
+          "configurationFunction": "[parameters('installvFiveAgentFunction')]",
+          "properties": {
+            "AgentPackageUrl": "[parameters('packageUrl')]",
+            "SasToken": {
+              "UserName": "token",
+              "Password": "PrivateSettingsRef:SasToken"
+            },
+            "AgentAddress": "[parameters('agentAddress')]",
+            "Port": "[parameters('port')]",
+            "DataPort": "[parameters('dataPort')]",
+            "AgentAccount": {
+              "UserName": "[parameters('agentAccountUserName')]",
+              "Password": "PrivateSettingsRef:vFiveAgentAccountPassword"
+            },
+            "AdminAccount": {
+              "UserName": "[parameters('adminAccountUserName')]",
+              "Password": "PrivateSettingsRef:VMAccountPassword"
+            },
+            "ManagerAddress": "[parameters('managerAddress')]",
+            "ManagerPort": "[parameters('managerPort')]",
+            "Passphrase": {
+              "UserName": "passphrase",
+              "Password": "PrivateSettingsRef:ManagerPassphrase"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "vFiveAgentAccountPassword": "[parameters('agentAccountPassword')]",
+            "VMAccountPassword": "[parameters('adminAccountPassword')]",
+            "ManagerPassphrase": "[parameters('managerPassphrase')]",
+            "SasToken": "[parameters('packageSasToken')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
