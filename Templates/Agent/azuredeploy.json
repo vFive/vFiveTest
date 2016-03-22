@@ -144,7 +144,7 @@
     },
     "nicName": {
       "type": "string",
-      "defaultValue": "vFiveNic",
+      "defaultValue": "vFiveAgentNic",
       "minLength": 1,
       "metadata": {
         "description": "Network interface for the VM."
@@ -163,7 +163,7 @@
     },
     "publicIPAddressName": {
       "type": "string",
-      "defaultValue": "vFivePublicIP",
+      "defaultValue": "vFiveAgentPublicIP",
       "minLength": 1,
       "metadata": {
         "description": "Public IP address for VM."
