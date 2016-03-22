@@ -22,7 +22,6 @@
     "imageSku": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": [ "2012-R2-Datacenter" ],
       "metadata": {
         "description": "The vFive manager virtual machine image sku."
       }
@@ -82,6 +81,7 @@
     },
     "packageSasToken": {
       "type": "securestring",
+      "defaultValue": null,
       "metadata": {
         "description": "vFive package sas token for azure storage account."
       }
@@ -255,12 +255,47 @@
         "description": "Public IP address for VM."
       }
     },
+    "virtualNetworkNewOrExisting": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "existing"
+      ],
+      "metadata": {
+        "description": "Indicates whether the VM pvirtual network is new or existing"
+      }
+    },
     "virtualNetworkName": {
       "type": "string",
       "defaultValue": "vFiveVNET",
       "minLength": 1,
       "metadata": {
         "description": "Virtual network for VM."
+      }
+    },
+    "addressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "minLength": 1,
+      "metadata": {
+        "description": "Virtual network address prefix."
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "Subnet",
+      "minLength": 1,
+      "metadata": {
+        "description": "Virtual network subnet name."
+      }
+    },
+    "subnetPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/24",
+      "minLength": 1,
+      "metadata": {
+        "description": "Virtual network subnet prefix."
       }
     },
     "baseUrl": {
@@ -276,13 +311,10 @@
     "imageOffer": "WindowsServer",
     "dnsPrefix": "",
     "OSDiskName": "[concat(toLower(parameters('vmName')), '-osdisk')]",
-    "addressPrefix": "10.0.0.0/16",
-    "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressType": "Dynamic",
     "vhdStorageContainerName": "vhds",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
     "dscExtensionName": "InstallManager",
     "dscConfgureModulesURL": "[concat(parameters('baseUrl'), '/dsc.zip')]",
     "installManagerFunction": "InstallManager.ps1\\InstallManager",
@@ -357,13 +389,13 @@
             "value": "[parameters('virtualNetworkName')]"
           },
           "addressPrefix": {
-            "value": "[variables('addressPrefix')]"
+            "value": "[parameters('addressPrefix')]"
           },
           "subnetName": {
-            "value": "[variables('subnetName')]"
+            "value": "[parameters('subnetName')]"
           },
           "subnetPrefix": {
-            "value": "[variables('subnetPrefix')]"
+            "value": "[parameters('subnetPrefix')]"
           }
         }
       }
