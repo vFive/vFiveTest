@@ -1,4 +1,4 @@
-# Create a vFive Manager VM
+# Create a vFive Agent VM
 
 Click the button below to deploy
 
