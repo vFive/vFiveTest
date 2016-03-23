@@ -97,7 +97,7 @@
     },
     "agentDataPort": {
       "type": "int",
-      "defaultValue": 15003,
+      "defaultValue": 15004,
       "minValue": 1,
       "maxValue": 65535,
       "metadata": {
